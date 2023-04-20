@@ -1,0 +1,22 @@
+RewriteEngine On
+
+# No es necesario agregar a una ruta el .php
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteCond %{REQUEST_FILENAME}.php -f
+RewriteRule ^(.*)$ $1.php
+
+# No es necesario agregar a una ruta el .html
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteCond %{REQUEST_FILENAME}.html -f
+RewriteRule ^(.*)$ $1.html
+
+
+# Si la ruta no es un archivo existente, ni una carpeta
+# Reescribir al index
+# RewriteCond %{REQUEST_FILENAME} !-f
+# RewriteCond %{REQUEST_FILENAME} !-d
+# RewriteRule ^(.+?)/?$ index.php?url=$1 [L,QSA]
+
+#redirige todo al index
+RewriteEngine On
+RewriteRule . index.php
