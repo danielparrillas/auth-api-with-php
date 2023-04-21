@@ -8,12 +8,15 @@ class PacienteService
   {
   }
 
-  public function getAll()
+  public function getAll(): array
   {
     $sql = "SELECT * FROM pacientes";
     $stmt = $this->db->prepare($sql);
     $stmt->execute();
-    return $stmt->fetch(PDO::FETCH_ASSOC);
+    while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
+      $data[] = $this->transformarData($row);
+    }
+    return $data;
   }
 
   public function create(PacienteNuevo $paciente)
@@ -36,5 +39,21 @@ class PacienteService
 
     // Devolver el ID de la última inserción
     return $this->db->lastInsertId();
+  }
+
+  public function transformarData($data): Paciente
+  {
+    return
+      new Paciente(
+        $data['PacienteId'],
+        $data["DNI"],
+        $data["Nombre"],
+        $data["Direccion"],
+        $data["CodigoPostal"],
+        $data["Telefono"],
+        $data["Genero"],
+        $data["FechaNacimiento"],
+        $data["Correo"]
+      );
   }
 }

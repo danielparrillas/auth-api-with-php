@@ -7,13 +7,20 @@ include_once(__DIR__ . '/config/index.php');
  * Establecemos conexion con las bases de datos
  */
 $database1 = new Database($db_config['host'], $db_config['name'], $db_config['user'], $db_config['password']);
-$db = $database1->conectar();
+$conn = $database1->conectar();
+if (!$conn) {
+  http_response_code(500);
+  echo "Error al conectarse con la base de datos";
+  exit;
+}
 
 /**
  * Definimos servicios y controladores
  */
-$pacienteService = new PacienteService($db);
+$pacienteService = new PacienteService($conn);
 $pacienteController = new PacienteController($pacienteService);
+$autenticacionService = new AutenticacionService($conn);
+$autenticacion = new AutenticacionController($autenticacionService);
 
 /**
  * Incluimos el codigo para manejar las rutas

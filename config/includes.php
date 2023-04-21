@@ -1,8 +1,9 @@
 <?php
 
 /**
- * En setes archivo se incluyen archivos
- * Algunos archivos que se incluyen, a su vez incluyen mas archivos
+ * En estes archivo se incluyen archivos
+ * Algunos archivos que se incluyen, a su vez incluyen mas archivos, permitiendo asi que 
+ * se incluya solo una vez cada archivo
  */
 
 //1. Incluyendo modelos
