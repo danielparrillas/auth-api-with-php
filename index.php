@@ -6,20 +6,15 @@ include_once(__DIR__ . '/config/index.php');
 /**
  * Establecemos conexion con las bases de datos
  */
-$database1 = new Database($db_config['host'], $db_config['name'], $db_config['user'], $db_config['password']);
-$conn = $database1->conectar();
-if (!$conn) {
-  http_response_code(500);
-  echo "Error al conectarse con la base de datos";
-  exit;
-}
+$database = new Database($db_config['host'], $db_config['name'], $db_config['user'], $db_config['password']);
+
 
 /**
  * Definimos servicios y controladores
  */
-$pacienteService = new PacienteService($conn);
+$pacienteService = new PacienteService($database);
 $pacienteController = new PacienteController($pacienteService);
-$autenticacionService = new AutenticacionService($conn);
+$autenticacionService = new AutenticacionService($database);
 $autenticacion = new AutenticacionController($autenticacionService);
 
 /**

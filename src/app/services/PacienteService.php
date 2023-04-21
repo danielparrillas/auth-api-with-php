@@ -4,29 +4,34 @@ class PacienteService
 {
 
 
-  public function __construct(private PDO $db)
+  public function __construct(private Database $db)
   {
   }
 
   public function getAll(): array
   {
+    $conn = $this->db->conectar();
+
     $sql = "SELECT * FROM pacientes";
-    $stmt = $this->db->prepare($sql);
+    $stmt = $conn->prepare($sql);
     $stmt->execute();
     while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
       $data[] = $this->transformarData($row);
     }
+
+    $conn = null;
     return $data;
   }
 
   public function create(PacienteNuevo $paciente)
   {
+    $conn = $this->db->conectar();
     $sql = "INSERT INTO pacientes 
             (DNI, Nombre, Direccion, CodigoPostal, Telefono, Genero, FechaNacimiento, Correo) 
             VALUES 
             (:dni, :nombre, :direccion, :codigo_postal, :telefono, :genero, :fecha_nacimiento, :correo)";
 
-    $stmt = $this->db->prepare($sql);
+    $stmt = $conn->prepare($sql);
     $stmt->bindParam(':dni', $paciente->dni);
     $stmt->bindParam(':nombre', $paciente->nombre);
     $stmt->bindParam(':direccion', $paciente->direccion);
@@ -38,7 +43,10 @@ class PacienteService
     $stmt->execute();
 
     // Devolver el ID de la última inserción
-    return $this->db->lastInsertId();
+    $userId = $conn->lastInsertId();
+
+    $conn = null;
+    return $userId;
   }
 
   public function transformarData($data): Paciente

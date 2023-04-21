@@ -10,14 +10,9 @@ class Database
   ) {
   }
 
-  public function conectar(): PDO | false
+  public function conectar(): PDO
   {
     $dsn = "mysql:host=$this->host;dbname=$this->name;charset=utf8";
-    try {
-      $conn = new PDO($dsn, $this->user, $this->password);
-      return $conn;
-    } catch (Exception $e) {
-      return false;
-    }
+    return new PDO($dsn, $this->user, $this->password);
   }
 }

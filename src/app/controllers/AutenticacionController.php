@@ -21,23 +21,20 @@ class AutenticacionController
             ]
 
           ]);
-          exit;
         } else {
           $credenciales = new Credencial($data["username"], $data["password"]);
-          if ($this->service->verificarUsuario($credenciales)) {
-            echo json_encode(
-              [
-                "token" => $this->getToken(),
-                "autenticado" => true,
-              ]
-            );
+          $autenticacion = $this->service->autenticar($credenciales);
+
+          if ($autenticacion->valida) {
+            echo json_encode([
+              "token" => $autenticacion->token,
+            ]);
           } else {
             http_response_code(401);
             echo json_encode(
               [
                 "error" => [
-                  "message" => "Credenciales incorrectas",
-                  "autenticado" => false,
+                  "message" => $autenticacion->mensaje,
                 ]
               ]
             );
@@ -52,7 +49,7 @@ class AutenticacionController
     }
   }
 
-  public function getToken()
+  public function crearToken()
   {
     return "8otMIOmjAeotpGzIlNPIi3KsnOQ--BQ/VAS!o47qdB=?k1SJLULsa?tiJgBCqT/xcMPU?iK/a21athW1sKAFFv8gbjauXQhHEDIq174c6GuKCiSOwG?vCY-NzDBHTp4sPM1OaCBvN=nxvgyLEPsNdlUBQqChzrADlZat9WWuwCJMR4tthXkxr0MgTnXIvm3?O=1o9Rqz1mZMZ!DDFIioCwKrC2Lku-E3MTGonlaR-NohH/8fl/VJ3eHKSKf-awPT
 ";
