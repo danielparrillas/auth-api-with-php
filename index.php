@@ -6,7 +6,7 @@ include_once(__DIR__ . '/config/index.php');
 /**
  * Establecemos conexion con las bases de datos
  */
-$database = new Database($db_config['host'], $db_config['name'], $db_config['user'], $db_config['password']);
+$database = new Database($db_config['host'], $db_config['name'], $db_config['user'], $db_config['password'], $db_config['driver'], $db_config['port'], $db_config['charset']);
 
 
 /**

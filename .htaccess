@@ -18,5 +18,4 @@ RewriteRule ^(.*)$ $1.html
 # RewriteRule ^(.+?)/?$ index.php?url=$1 [L,QSA]
 
 #redirige todo al index
-RewriteEngine On
 RewriteRule . index.php
